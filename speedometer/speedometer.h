@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QQuickPaintedItem>
+#include <QProgressBar>
 
 class Speedometer : public QQuickPaintedItem
 {
@@ -23,6 +24,7 @@ class Speedometer : public QQuickPaintedItem
 public:
     Speedometer(QQuickItem *parent = 0);
     virtual void paint(QPainter *painter);
+    void draw_battery_level(int level, QPainter *painter,  QRectF *rect, QPen *pen);
 
     qreal   getSpeedometerSize();
     qreal   getStartAngle();
@@ -75,5 +77,6 @@ private:
     QColor  m_BackgroundColor;
 
 };
+
 
 #endif // SPEEDOMETER_H

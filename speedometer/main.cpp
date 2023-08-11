@@ -1,4 +1,4 @@
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QTimer>
 #include "speedometer.h"
@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     qmlRegisterType<Speedometer>("com.ulasdikme.speedometer",1,0,"Speedometer");
 
@@ -39,11 +39,11 @@ int main(int argc, char *argv[])
 
        // val = volt;
 
-        if(val < 1600)
+        if(val < 2000)
                 ptrSpeedometer->setOuterColor(QColor(128,255,0));
-        else if(val > 1600 && val < 3200)
+        else if(val > 2000 && val < 3000)
                 ptrSpeedometer->setOuterColor(QColor(255,255,0));
-        else if(val > 3200)
+        else if(val > 3000)
                 ptrSpeedometer->setOuterColor(QColor(255,0,0));
 
 //        if(abs(volt-val) <=10)
@@ -108,6 +108,17 @@ int main(int argc, char *argv[])
 
 //    timer2.start(180);
     //TODO: pretend first timer to update the data before start the seond timer
+
+//    QProgressBar progressBar;
+//    progressBar.setMinimum(0);
+//    progressBar.setMaximum(100);
+//    // or as alternative to the two above, you could call
+//    // progressBar.setRange(0,100);
+
+//    for( int i = 0; i <100; ++i ) {
+//        progressBar.setValue(i);
+//    }
+
     timer.start(10);
 
     if (engine.rootObjects().isEmpty())
