@@ -9,8 +9,8 @@ Speedometer::Speedometer(QQuickItem *parent)
     m_StartAngle(50),
     m_AlignAngle(260), // it should be 360 - m_StartAngle*3 for good looking
     m_LowestRange(0),
-    m_HighestRange(10000),
-    m_Speed(2430),
+    m_HighestRange(100),
+    m_Speed(0),
     m_Battery(100),
     m_ArcWidth(20),
     m_OuterColor(QColor(12,16,247)),
@@ -22,7 +22,8 @@ Speedometer::Speedometer(QQuickItem *parent)
 }
 
 // drawing battery level by using rectangles: red < 20 < yellow < 40 < green < 100
-void Speedometer::draw_battery_level(int level, QPainter *painter,  QRectF *rect, QPen *pen)
+void Speedometer::draw_battery_level(unsigned int level, QPainter *painter,  QRectF *rect, QPen *pen)
+
 {
     painter->save();
     painter->setPen(Qt::NoPen);
@@ -115,7 +116,7 @@ void Speedometer::paint(QPainter *painter)
     painter->setFont(font);
     pen.setColor(m_TextColor);
     painter->setPen(pen);
-    painter->drawText(rect.adjusted(m_SpeedometerSize/40, m_SpeedometerSize/40, -m_SpeedometerSize/40, -m_SpeedometerSize/40), Qt::AlignCenter  ,QString::number((m_Speed/100),'i', 0));
+    painter->drawText(rect.adjusted(m_SpeedometerSize/40, m_SpeedometerSize/40, -m_SpeedometerSize/40, -m_SpeedometerSize/40), Qt::AlignCenter  ,QString::number((m_Speed),'i', 0));
     QFont font3("Halvetica",10,QFont::Bold);
     painter->setFont(font3);
     pen.setColor(m_TextColor);
@@ -138,7 +139,6 @@ void Speedometer::paint(QPainter *painter)
     // Battery level bar chart
     painter->save();
 //    int battery_level = 72;
-//    draw_battery_level(battery_level, painter, &rect, &pen);
     draw_battery_level(getBattery(), painter, &rect, &pen);
     painter->restore();
 }
@@ -176,7 +176,7 @@ qreal Speedometer::getSpeed()
     return m_Speed;
 }
 
-int Speedometer::getBattery()
+unsigned int Speedometer::getBattery()
 {
     return m_Battery;
 }
@@ -318,7 +318,7 @@ void Speedometer::setBackgroundColor(QColor backgroundColor)
     emit backgroundColorChanged();
 }
 
-void Speedometer::setBattery(int battery)
+void Speedometer::setBattery(unsigned int battery)
 {
     if(m_Battery == battery)
         return;

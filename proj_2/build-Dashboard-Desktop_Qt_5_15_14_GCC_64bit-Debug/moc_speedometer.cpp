@@ -121,7 +121,7 @@ static const uint qt_meta_data_Speedometer[] = {
       17, QMetaType::QReal, 0x00495103,
       18, QMetaType::QReal, 0x00495103,
       19, QMetaType::QReal, 0x00495103,
-      20, QMetaType::Int, 0x00495103,
+      20, QMetaType::UInt, 0x00495103,
       21, QMetaType::Int, 0x00495103,
       22, QMetaType::QColor, 0x00495103,
       23, QMetaType::QColor, 0x00495103,
@@ -264,7 +264,7 @@ void Speedometer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 3: *reinterpret_cast< qreal*>(_v) = _t->getLowestRange(); break;
         case 4: *reinterpret_cast< qreal*>(_v) = _t->getHighestRange(); break;
         case 5: *reinterpret_cast< qreal*>(_v) = _t->getSpeed(); break;
-        case 6: *reinterpret_cast< int*>(_v) = _t->getBattery(); break;
+        case 6: *reinterpret_cast< uint*>(_v) = _t->getBattery(); break;
         case 7: *reinterpret_cast< int*>(_v) = _t->getArcWidth(); break;
         case 8: *reinterpret_cast< QColor*>(_v) = _t->getOuterColor(); break;
         case 9: *reinterpret_cast< QColor*>(_v) = _t->getInnerColor(); break;
@@ -283,7 +283,7 @@ void Speedometer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 3: _t->setLowestRange(*reinterpret_cast< qreal*>(_v)); break;
         case 4: _t->setHighestRange(*reinterpret_cast< qreal*>(_v)); break;
         case 5: _t->setSpeed(*reinterpret_cast< qreal*>(_v)); break;
-        case 6: _t->setBattery(*reinterpret_cast< int*>(_v)); break;
+        case 6: _t->setBattery(*reinterpret_cast< uint*>(_v)); break;
         case 7: _t->setArcWidth(*reinterpret_cast< int*>(_v)); break;
         case 8: _t->setOuterColor(*reinterpret_cast< QColor*>(_v)); break;
         case 9: _t->setInnerColor(*reinterpret_cast< QColor*>(_v)); break;

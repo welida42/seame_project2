@@ -8,7 +8,6 @@
 #include "speedometer.h"
 #include <unistd.h>
 #include <QTimer>
-//#include <QApplication>
 
 // CanReceiver class constructor definition
 CanReceiver::CanReceiver() {
@@ -74,38 +73,21 @@ int main(int argc, char *argv[])
     Speedometer *ptrSpeedometer = qobject_cast<Speedometer*>(speedometer);
     //Speedometer *ptrSpeedometer = dynamic_cast<Speedometer*>(speedometer);
 
-    qreal val = 0;
+//    qreal val = 0;
     ptrSpeedometer->setSpeed(canReceiver.speed());
 //ptrSpeedometer->setSpeed(val);
-   bool direction = true;
    QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, [&]()
     {
-
-
-           // val = volt;
-
-            if(canReceiver.speed() < 5001)
+            if(canReceiver.speed() < 51)
                     ptrSpeedometer->setOuterColor(QColor(128,255,0));
-            else if(canReceiver.speed() > 5000 && canReceiver.speed() < 7501)
+            else if(canReceiver.speed() > 50 && canReceiver.speed() < 76)
                     ptrSpeedometer->setOuterColor(QColor(255,255,0));
-            else if(canReceiver.speed() > 7500)
+            else if(canReceiver.speed() > 75)
                     ptrSpeedometer->setOuterColor(QColor(255,0,0));
 
             ptrSpeedometer->setSpeed(canReceiver.speed());
             ptrSpeedometer->setBattery(canReceiver.battery());
-
-
-//            if(val >= ptrSpeedometer->getHighestRange())
-//                    direction = false;
-//            else if(val <= 0.1)
-//                    direction = true;
-
-//            if(direction)
-//                    val = val + 10;
-//            else
-//                    val = val - 10;
-
     }
         );
 

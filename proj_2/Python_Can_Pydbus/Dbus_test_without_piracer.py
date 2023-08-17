@@ -16,22 +16,23 @@ class DbusData:
         self._current_battery -= 1
         print(f"Sending RPM: {self._current_rpm}, Speed: {self._current_speed}, Battery: {self._current_battery}")
         self._dbus.setData(speed, rpm, battery)
+        #self._dbus.setData(speed)
 
 async def send_data_incrementally(dbus_data):
     while True:
-        # Incrementally increase speed and rpm by 5
-        if(dbus_data._current_speed >= 11100):
-            dbus_data._current_speed = 7000
+        # Incrementally increase speed and rpm by 1
+        if(dbus_data._current_speed >= 111):
+            dbus_data._current_speed = 70
 
         if(dbus_data._current_battery <= 0):
             dbus_data._current_battery = 100
             
 
-        dbus_data.update(dbus_data._current_speed + 100, dbus_data._current_rpm + 100, 
+        dbus_data.update(dbus_data._current_speed + 1, dbus_data._current_rpm + 1, 
                          dbus_data._current_battery)
         
         # Sleep for a second
-        await asyncio.sleep(0.3)
+        await asyncio.sleep(0.1)
 
 dbus_data = DbusData()
 

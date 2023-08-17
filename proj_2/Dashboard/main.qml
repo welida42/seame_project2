@@ -8,7 +8,7 @@ ApplicationWindow {
     width: 1280
     height: 400
     title: "CAN Data Viewer"
-//    color: "#000000"
+    color: "black"
 
 
     Speedometer
@@ -78,16 +78,19 @@ ApplicationWindow {
         Text {
             text: "Speed: " + canReceiver.speed + " km/h"
             font.pixelSize: 24
+            color: "white"
         }
 
         Text {
             text: "RPM: " + canReceiver.rpm
             font.pixelSize: 24
+            color: "white"
         }
 
         Text {
             text: "Battery: " + canReceiver.battery + "%"
             font.pixelSize: 24
+            color: "white"
         }
     }
 }
