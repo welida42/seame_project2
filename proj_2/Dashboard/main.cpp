@@ -33,6 +33,7 @@ double CanReceiver::battery() const {
 
 // Method to set the speed, rpm and battery data, and emit signals when they change
 void CanReceiver::setData(double speed, double rpm, double battery) {
+
     m_speed = speed;
     m_rpm = rpm;
     m_battery = battery;
@@ -79,11 +80,11 @@ int main(int argc, char *argv[])
    QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, [&]()
     {
-            if(canReceiver.speed() < 51)
+            if(canReceiver.speed() < 101)
                     ptrSpeedometer->setOuterColor(QColor(128,255,0));
-            else if(canReceiver.speed() > 50 && canReceiver.speed() < 76)
+            else if(canReceiver.speed() > 100 && canReceiver.speed() < 151)
                     ptrSpeedometer->setOuterColor(QColor(255,255,0));
-            else if(canReceiver.speed() > 75)
+            else if(canReceiver.speed() > 150)
                     ptrSpeedometer->setOuterColor(QColor(255,0,0));
 
             ptrSpeedometer->setSpeed(canReceiver.speed());

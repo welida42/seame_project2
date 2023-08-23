@@ -9,7 +9,7 @@ Speedometer::Speedometer(QQuickItem *parent)
     m_StartAngle(50),
     m_AlignAngle(260), // it should be 360 - m_StartAngle*3 for good looking
     m_LowestRange(0),
-    m_HighestRange(100),
+    m_HighestRange(200),
     m_Speed(0),
     m_Battery(100),
     m_ArcWidth(20),
@@ -30,37 +30,38 @@ void Speedometer::draw_battery_level(unsigned int level, QPainter *painter,  QRe
     if (level <= 20)
     {
         painter->setBrush(QBrush(Qt::red));
-        painter->drawRect(150, 350, 100, 10);
+        painter->drawRect(150, 320, 100, 10);
     }
     else if (20 < level and level <= 40)
     {
         painter->setBrush(QBrush(Qt::yellow));
-        painter->drawRect(150, 350, 100, 10);
-        painter->drawRect(150, 335, 100, 10);
+        painter->drawRect(150, 320, 100, 10);
+        painter->drawRect(150, 305, 100, 10);
     }
     else if (40 < level and level <= 60)
     {
         painter->setBrush(QBrush(Qt::green));
-        painter->drawRect(150, 350, 100, 10);
-        painter->drawRect(150, 335, 100, 10);
         painter->drawRect(150, 320, 100, 10);
+        painter->drawRect(150, 305, 100, 10);
+        painter->drawRect(150, 290, 100, 10);
     }
     else if (60 < level and level <= 80)
     {
         painter->setBrush(QBrush(Qt::green));
-        painter->drawRect(150, 350, 100, 10);
-        painter->drawRect(150, 335, 100, 10);
         painter->drawRect(150, 320, 100, 10);
         painter->drawRect(150, 305, 100, 10);
+        painter->drawRect(150, 290, 100, 10);
+        painter->drawRect(150, 275, 100, 10);
     }
     else if (80 < level and level <= 100)
     {
         painter->setBrush(QBrush(Qt::green));
-        painter->drawRect(150, 350, 100, 10);
-        painter->drawRect(150, 335, 100, 10);
+        painter->setBrush(QBrush(Qt::green));
         painter->drawRect(150, 320, 100, 10);
         painter->drawRect(150, 305, 100, 10);
         painter->drawRect(150, 290, 100, 10);
+        painter->drawRect(150, 275, 100, 10);
+        painter->drawRect(150, 260, 100, 10);
     }
     else
         return;
@@ -70,12 +71,12 @@ void Speedometer::draw_battery_level(unsigned int level, QPainter *painter,  QRe
     QFont font2("Halvetica",14,QFont::Bold);
     painter->setFont(font2);
     painter->setPen(*pen);
-    painter->drawText(rect->adjusted(-100, 330, 100, 20), Qt::AlignCenter, QString::number(level,'i', 0) + "%");
+    painter->drawText(rect->adjusted(-100, 280, 100, 20), Qt::AlignCenter, QString::number(level,'i', 0) + "%");
 
     QFont font3("Halvetica",10,QFont::Bold);
     painter->setFont(font3);
     painter->setPen(*pen);
-    painter->drawText(rect->adjusted(-100, 360, 100, 20), Qt::AlignCenter, "battery level");
+    painter->drawText(rect->adjusted(-100, 310, 100, 20), Qt::AlignCenter, "battery level");
     painter->restore();
 }
 
@@ -108,7 +109,7 @@ void Speedometer::paint(QPainter *painter)
     pen.setColor(m_OuterColor);
     painter->setBrush(m_InnerColor);
     painter->setPen(pen);
-    painter->drawRect(100, 150, 200, 100);
+    painter->drawRect(100, 100, 200, 100);
     painter->restore();
     //value of speed inside rect
     painter->save();
@@ -116,12 +117,12 @@ void Speedometer::paint(QPainter *painter)
     painter->setFont(font);
     pen.setColor(m_TextColor);
     painter->setPen(pen);
-    painter->drawText(rect.adjusted(m_SpeedometerSize/40, m_SpeedometerSize/40, -m_SpeedometerSize/40, -m_SpeedometerSize/40), Qt::AlignCenter  ,QString::number((m_Speed),'i', 0));
+    painter->drawText(rect.adjusted(m_SpeedometerSize/40, m_SpeedometerSize/40, -m_SpeedometerSize/40, -m_SpeedometerSize/4), Qt::AlignCenter  ,QString::number((m_Speed),'i', 0));
     QFont font3("Halvetica",10,QFont::Bold);
     painter->setFont(font3);
     pen.setColor(m_TextColor);
     painter->setPen(pen);
-    painter->drawText(rect.adjusted(m_SpeedometerSize/30 + 140, m_SpeedometerSize/30 + 150, -m_SpeedometerSize/30, -m_SpeedometerSize/4), Qt::AlignCenter, "km/h");
+    painter->drawText(rect.adjusted(m_SpeedometerSize/30 + 135, m_SpeedometerSize/30 + 60, -m_SpeedometerSize/30, -m_SpeedometerSize/4), Qt::AlignCenter, "cm/sec");
 
     painter->restore();
 
@@ -262,8 +263,11 @@ void Speedometer::setSpeed(qreal speed)
 {
     if(m_Speed == speed)
         return;
+    if(speed > getHighestRange())
+        m_Speed = getHighestRange();
+    else
+        m_Speed = speed;
 
-    m_Speed = speed;
     update();
     emit speedChanged();
 }

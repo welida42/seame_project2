@@ -14,9 +14,9 @@ EQ            = =
 
 CC            = aarch64-linux-gnu-gcc
 CXX           = aarch64-linux-gnu-g++
-DEFINES       = -DQT_QML_DEBUG -DQT_QUICK_LIB -DQT_GUI_LIB -DQT_QMLMODELS_LIB -DQT_QML_LIB -DQT_NETWORK_LIB -DQT_DBUS_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_QUICK_LIB -DQT_GUI_LIB -DQT_QMLMODELS_LIB -DQT_QML_LIB -DQT_NETWORK_LIB -DQT_DBUS_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -march=armv8-a --sysroot=/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/sysroot -g -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -pipe -march=armv8-a --sysroot=/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/sysroot -g -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -pipe -march=armv8-a --sysroot=/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/sysroot -g -std=gnu++11 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I../Dashboard -I. -I../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include -I../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick -I../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui -I../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQmlModels -I../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml -I../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtNetwork -I../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtDBus -I../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore -I. -I../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/mkspecs/devices/linux-rasp-pi4-aarch64
 QMAKE         = /home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/bin/qmake
 DEL_FILE      = rm -f
@@ -52,11 +52,15 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../Dashboard/main.cpp qrc_qml.cpp \
-		moc_main.cpp
+SOURCES       = ../Dashboard/main.cpp \
+		../Dashboard/speedometer.cpp qrc_qml.cpp \
+		moc_main.cpp \
+		moc_speedometer.cpp
 OBJECTS       = main.o \
+		speedometer.o \
 		qrc_qml.o \
-		moc_main.o
+		moc_main.o \
+		moc_speedometer.o
 DIST          = ../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/mkspecs/features/spec_pre.prf \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/mkspecs/common/unix.conf \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/mkspecs/common/linux.conf \
@@ -250,7 +254,8 @@ DIST          = ../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/mkspecs/features/yacc.prf \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/mkspecs/features/lex.prf \
 		../Dashboard/Dashboard.pro ../Dashboard/main.h \
-		../Dashboard/main.h ../Dashboard/main.cpp
+		../Dashboard/speedometer.h ../Dashboard/main.cpp \
+		../Dashboard/speedometer.cpp
 QMAKE_TARGET  = Dashboard
 DESTDIR       = 
 TARGET        = Dashboard
@@ -667,8 +672,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../Dashboard/qml.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Dashboard/main.h ../Dashboard/main.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Dashboard/main.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Dashboard/main.h ../Dashboard/speedometer.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Dashboard/main.cpp ../Dashboard/speedometer.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -696,65 +701,18 @@ compiler_rcc_clean:
 	-$(DEL_FILE) qrc_qml.cpp
 qrc_qml.cpp: ../Dashboard/qml.qrc \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/bin/rcc \
-		../Dashboard/main.qml \
-		../Dashboard/images/hubo3-5.png \
-		../Dashboard/images/hubo4-1.png \
-		../Dashboard/images/bat_4.gif \
-		../Dashboard/images/hubo4-22.png \
-		../Dashboard/images/hubo4-14.png \
-		../Dashboard/images/hubo3-4.png \
-		../Dashboard/images/bat_3.gif \
-		../Dashboard/images/hubo4-21.png \
-		../Dashboard/images/hubo4-13.png \
-		../Dashboard/images/hubo4-9.png \
-		../Dashboard/images/hubo3-3.png \
-		../Dashboard/images/bat_2.gif \
-		../Dashboard/images/hubo4-20.png \
-		../Dashboard/images/hubo4-12.png \
-		../Dashboard/images/hubo4-8.png \
-		../Dashboard/images/hubo3-2.png \
-		../Dashboard/images/bat_1.gif \
-		../Dashboard/images/hubo4-11.png \
-		../Dashboard/images/hubo4-7.png \
-		../Dashboard/images/hubo3-1.png \
-		../Dashboard/images/bat_0.gif \
-		../Dashboard/images/hubo4-10.png \
-		../Dashboard/images/hubo4-6.png \
-		../Dashboard/images/bat_9.gif \
-		../Dashboard/images/hubo3-0.png \
-		../Dashboard/images/hubo4-19.png \
-		../Dashboard/images/hubo3-9.png \
-		../Dashboard/images/hubo4-5.png \
-		../Dashboard/images/bat_8.gif \
-		../Dashboard/images/background.png \
-		../Dashboard/images/hubo4-18.png \
-		../Dashboard/images/hubo3-8.png \
-		../Dashboard/images/hubo4-4.png \
-		../Dashboard/images/bat_7.gif \
-		../Dashboard/images/hubo4-17.png \
-		../Dashboard/images/hubo3-7.png \
-		../Dashboard/images/hubo4-3.png \
-		../Dashboard/images/hubo3-11.png \
-		../Dashboard/images/bat_6.gif \
-		../Dashboard/images/hubo4-24.png \
-		../Dashboard/images/hubo4-16.png \
-		../Dashboard/images/hubo3-6.png \
-		../Dashboard/images/hubo4-2.png \
-		../Dashboard/images/hubo3-10.png \
-		../Dashboard/images/bat_5.gif \
-		../Dashboard/images/hubo4-23.png \
-		../Dashboard/images/hubo4-15.png
+		../Dashboard/main.qml
 	/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/bin/rcc -name qml ../Dashboard/qml.qrc -o qrc_qml.cpp
 
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: ../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/mkspecs/features/data/dummy.cpp
-	aarch64-linux-gnu-g++ -pipe -pipe -march=armv8-a --sysroot=/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/sysroot -g -Wall -Wextra -dM -E -o moc_predefs.h ../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/mkspecs/features/data/dummy.cpp
+	aarch64-linux-gnu-g++ -pipe -pipe -march=armv8-a --sysroot=/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/sysroot -g -std=gnu++11 -Wall -Wextra -dM -E -o moc_predefs.h ../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_main.cpp moc_main.cpp
+compiler_moc_header_make_all: moc_main.cpp moc_speedometer.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_main.cpp moc_main.cpp
+	-$(DEL_FILE) moc_main.cpp moc_speedometer.cpp
 moc_main.cpp: ../Dashboard/main.h \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/QObject \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qobject.h \
@@ -828,7 +786,7 @@ moc_main.cpp: ../Dashboard/main.h \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/bin/moc
 	/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/bin/moc $(DEFINES) --include /home/seame02/Desktop/proj_2/build-Dashboard-team2-Debug/moc_predefs.h -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/mkspecs/devices/linux-rasp-pi4-aarch64 -I/home/seame02/Desktop/proj_2/Dashboard -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQmlModels -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtNetwork -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtDBus -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Dashboard/main.h -o moc_main.cpp
 
-moc_main.cpp: ../Dashboard/main.h \
+moc_speedometer.cpp: ../Dashboard/speedometer.h \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/QObject \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qobject.h \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qobjectdefs.h \
@@ -882,9 +840,21 @@ moc_main.cpp: ../Dashboard/main.h \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qvarlengtharray.h \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qcontainerfwd.h \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qobject_impl.h \
-		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtDBus/QDBusConnection \
-		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtDBus/qdbusconnection.h \
-		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtDBus/qtdbusglobal.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick/QQuickPaintedItem \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick/qquickpainteditem.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick/qquickitem.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick/qtquickglobal.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qtqmlglobal.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qtqml-config.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtNetwork/qtnetworkglobal.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtNetwork/qtnetwork-config.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qtguiglobal.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qtgui-config.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick/qtquick-config.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qqml.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qqmlprivate.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qqmlparserstatus.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qqmllist.h \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qvariant.h \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qmap.h \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qdebug.h \
@@ -897,9 +867,38 @@ moc_main.cpp: ../Dashboard/main.h \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qcontiguouscache.h \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qsharedpointer.h \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qsharedpointer_impl.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qqmlpropertyvaluesource.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qurl.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qurlquery.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qpointer.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qmetaobject.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qqmlcomponent.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qqmlerror.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qjsvalue.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/QList \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qevent.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qwindowdefs.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qwindowdefs_win.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qregion.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qrect.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qmargins.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qsize.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qdatastream.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qkeysequence.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qfile.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qfiledevice.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qvector2d.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qtouchdevice.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qfont.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qaccessible.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qcoreapplication.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qeventloop.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qcolor.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qrgb.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qrgba64.h \
 		moc_predefs.h \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/bin/moc
-	/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/bin/moc $(DEFINES) --include /home/seame02/Desktop/proj_2/build-Dashboard-team2-Debug/moc_predefs.h -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/mkspecs/devices/linux-rasp-pi4-aarch64 -I/home/seame02/Desktop/proj_2/Dashboard -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQmlModels -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtNetwork -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtDBus -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Dashboard/main.h -o moc_main.cpp
+	/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/bin/moc $(DEFINES) --include /home/seame02/Desktop/proj_2/build-Dashboard-team2-Debug/moc_predefs.h -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/mkspecs/devices/linux-rasp-pi4-aarch64 -I/home/seame02/Desktop/proj_2/Dashboard -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQmlModels -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtNetwork -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtDBus -I/home/seame02/Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore -I. -I/usr/include/c++/9 -I/usr/include/x86_64-linux-gnu/c++/9 -I/usr/include/c++/9/backward -I/usr/lib/gcc/x86_64-linux-gnu/9/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Dashboard/speedometer.h -o moc_speedometer.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1016,14 +1015,169 @@ main.o: ../Dashboard/main.cpp ../../../Documents/Qt-CrossCompile-RaspberryPi/ras
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/QObject \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtDBus/QDBusConnection \
 		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtDBus/qdbusconnection.h \
-		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtDBus/qtdbusglobal.h
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtDBus/qtdbusglobal.h \
+		../Dashboard/speedometer.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick/QQuickPaintedItem \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick/qquickpainteditem.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick/qquickitem.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick/qtquickglobal.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick/qtquick-config.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qqmlcomponent.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/QList \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qevent.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qregion.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qrect.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qdatastream.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qkeysequence.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qfile.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qfiledevice.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qvector2d.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qtouchdevice.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qfont.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qaccessible.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qcolor.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qrgb.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qrgba64.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/QTimer \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qtimer.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qbasictimer.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Dashboard/main.cpp
+
+speedometer.o: ../Dashboard/speedometer.cpp ../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/QPainter \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qpainter.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qtguiglobal.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qglobal.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qconfig-bootstrapped.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qconfig.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qtcore-config.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qsystemdetection.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qprocessordetection.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qcompilerdetection.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qtypeinfo.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qsysinfo.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qlogging.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qflags.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qatomic.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qbasicatomic.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qatomic_bootstrap.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qgenericatomic.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qatomic_cxx11.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qatomic_msvc.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qglobalstatic.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qmutex.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qnumeric.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qversiontagging.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qtgui-config.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qnamespace.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qrect.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qmargins.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qsize.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qpoint.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qscopedpointer.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qpixmap.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qpaintdevice.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qwindowdefs.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qobjectdefs.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qobjectdefs_impl.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qwindowdefs_win.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qcolor.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qrgb.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qstringlist.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qlist.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qalgorithms.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qiterator.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qrefcount.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qarraydata.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qhashfunctions.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qstring.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qchar.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qbytearray.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qstringliteral.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qstringalgorithms.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qstringview.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qstringbuilder.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qpair.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qvector.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qcontainertools_impl.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qbytearraylist.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qregexp.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qstringmatcher.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qrgba64.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qsharedpointer.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qshareddata.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qhash.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qsharedpointer_impl.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qobject.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qcoreevent.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qmetatype.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qvarlengtharray.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qcontainerfwd.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qobject_impl.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qimage.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qpixelformat.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qtransform.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qmatrix.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qpolygon.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qregion.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qdatastream.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qiodevice.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qline.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qtextoption.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qpen.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qbrush.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qfontinfo.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qfont.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qfontmetrics.h \
+		../Dashboard/speedometer.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/QObject \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick/QQuickPaintedItem \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick/qquickpainteditem.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick/qquickitem.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick/qtquickglobal.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qtqmlglobal.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qtqml-config.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtNetwork/qtnetworkglobal.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtNetwork/qtnetwork-config.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQuick/qtquick-config.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qqml.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qqmlprivate.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qqmlparserstatus.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qqmllist.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qvariant.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qmap.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qdebug.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qtextstream.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qlocale.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qset.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qcontiguouscache.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qqmlpropertyvaluesource.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qurl.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qurlquery.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qpointer.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qmetaobject.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qqmlcomponent.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qqmlerror.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtQml/qjsvalue.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/QList \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qevent.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qkeysequence.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qfile.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qfiledevice.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qvector2d.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qtouchdevice.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtGui/qaccessible.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qcoreapplication.h \
+		../../../Documents/Qt-CrossCompile-RaspberryPi/raspberrypi4/qt5.15/include/QtCore/qeventloop.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o speedometer.o ../Dashboard/speedometer.cpp
 
 qrc_qml.o: qrc_qml.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_qml.o qrc_qml.cpp
 
 moc_main.o: moc_main.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_main.o moc_main.cpp
+
+moc_speedometer.o: moc_speedometer.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_speedometer.o moc_speedometer.cpp
 
 ####### Install
 

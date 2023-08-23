@@ -21,7 +21,7 @@ class DbusData:
 async def send_data_incrementally(dbus_data):
     while True:
         # Incrementally increase speed and rpm by 1
-        if(dbus_data._current_speed >= 111):
+        if(dbus_data._current_speed >= 220):
             dbus_data._current_speed = 70
 
         if(dbus_data._current_battery <= 0):
